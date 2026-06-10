@@ -9,10 +9,10 @@ tags:
 
 categories:
     - PS作品
-style:
-    background: "#4b2a9d"
-    color: "#fff"
-
 weight: 1
 ---
 ![海边的优香](1.png)
+
+ > 最早期的PS作品之一,背景取自学校附近的海滩
+
+ ![海滩](2.jpg)![优香原图](3.jpg)
