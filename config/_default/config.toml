@@ -2,7 +2,7 @@
 baseurl = "https://LilacBee0608.github.io/"
 # baseurl = "https://starter.stack.cai.im/"
 locale  = "zh-cn"
-title   = "My Blog"
+title   = "@HyacinthBee"
 
 # Theme i18n support
 # See all available values at https://github.com/CaiJimmy/hugo-theme-stack/tree/master/i18n
