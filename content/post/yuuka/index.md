@@ -9,6 +9,9 @@ tags:
 
 categories:
     - PS作品
+style:
+    background: "#4b2a9d"
+    color: "#fff"
 
 weight: 1
 ---
