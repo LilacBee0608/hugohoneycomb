@@ -1,3 +1,381 @@
-/*
-    You can add your own custom styles here.
-*/
+// =============================================================================
+// Hugo Stack 自定义外观模板
+// 文件路径: assets/scss/custom.scss
+//
+// 使用方式:
+//   1. 修改下方「设计令牌」中的 SCSS 变量（最推荐）
+//   2. 按需取消各区块注释，启用更细粒度的样式
+//   3. 本地预览: hugo server  →  http://localhost:1313
+//
+// Stack 主题通过 CSS 变量驱动外观，覆盖 :root 即可全局生效。
+// 暗色模式选择器: [data-scheme="dark"]
+// =============================================================================
+
+
+// -----------------------------------------------------------------------------
+// 1. 设计令牌 — 在这里集中改色，其余区块会自动跟随
+// -----------------------------------------------------------------------------
+
+// 品牌色
+$accent-light:        #7c5cbf;   // 主强调色（紫藤）
+$accent-light-dark:   #5e4499;   // 主强调色（深）
+$accent-dark:         #c4b5fd;   // 暗色模式强调色
+$accent-dark-darker:  #a78bfa;
+
+// 背景
+$bg-light:            #f7f5fb;
+$bg-dark:             #1e1e2e;
+
+// 卡片
+$card-light:          #ffffff;
+$card-dark:           #2a2a3d;
+
+// 文字
+$text-body-light:     #5c5c6a;
+$text-body-dark:      rgba(255, 255, 255, 0.72);
+
+// 圆角与间距
+$card-radius:         12px;
+$tag-radius:          6px;
+$section-gap:         40px;
+
+// 字体（留空则使用主题默认 Lato）
+$font-base:           "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+$font-article:        $font-base;
+$font-code:           "JetBrains Mono", Menlo, Monaco, Consolas, monospace;
+
+// 阴影强度 (0 = 无阴影, 1 = 主题默认)
+$shadow-strength:     1;
+
+
+// -----------------------------------------------------------------------------
+// 2. 全局 CSS 变量 — 映射设计令牌到 Stack 主题变量
+// -----------------------------------------------------------------------------
+
+:root {
+    // 页面背景与强调色
+    --body-background:       #{$bg-light};
+    --accent-color:          #{$accent-light};
+    --accent-color-darker:   #{$accent-light-dark};
+    --accent-color-text:     #fff;
+    --body-text-color:       #{$text-body-light};
+
+    // 卡片
+    --card-background:         #{$card-light};
+    --card-background-selected:  #ede9f5;
+    --card-border-radius:      #{$card-radius};
+    --card-text-color-main:      #1a1a2e;
+    --card-text-color-secondary: #666680;
+    --card-text-color-tertiary:  #888899;
+
+    // 布局
+    --section-separation:    #{$section-gap};
+    --tag-border-radius:     #{$tag-radius};
+
+    // 字体
+    --base-font-family:      #{$font-base};
+    --article-font-family:   #{$font-article};
+    --code-font-family:      #{$font-code};
+    --article-font-size:     1.65rem;
+    --article-line-height:   1.9;
+
+    // 文章内元素
+    --blockquote-border-size:      4px;
+    --blockquote-background-color: #f0ecf8;
+    --heading-border-size:         4px;
+    --link-background-color:       124, 92, 191;   // 与 $accent-light 对应 RGB
+    --link-background-opacity:     0.35;
+    --link-background-opacity-hover: 0.55;
+
+    // 代码块
+    --code-background-color: rgba(124, 92, 191, 0.1);
+    --code-text-color:       #6b4fa8;
+    --pre-background-color:  #faf8ff;
+    --pre-text-color:        #2d2d3a;
+
+    // 表格
+    --table-border-color:          #e2dde8;
+    --tr-even-background-color:    #f5f2fa;
+
+    // 阴影
+    @if $shadow-strength == 0 {
+        --shadow-l1: none;
+        --shadow-l2: none;
+    }
+
+    // 侧边栏尺寸（可选微调）
+     --sidebar-avatar-size: 50px;
+     --emoji-size: 36px;
+
+    //文章封面
+    --article-image-height: 500px;
+}
+
+[data-scheme="dark"] {
+    --body-background:       #{$bg-dark};
+    --accent-color:          #{$accent-dark};
+    --accent-color-darker:   #{$accent-dark-darker};
+    --accent-color-text:     #1a1a2e;
+    --body-text-color:       #{$text-body-dark};
+
+    --card-background:         #{$card-dark};
+    --card-background-selected: rgba(255, 255, 255, 0.1);
+    --card-text-color-main:      rgba(255, 255, 255, 0.92);
+    --card-text-color-secondary: rgba(255, 255, 255, 0.68);
+    --card-text-color-tertiary:  rgba(255, 255, 255, 0.48);
+
+    --blockquote-background-color: #32324a;
+    --code-background-color:       rgba(167, 139, 250, 0.15);
+    --code-text-color:             #c4b5fd;
+    --pre-background-color:        #242433;
+    --pre-text-color:              #e8e8f0;
+    --table-border-color:          #44445a;
+    --tr-even-background-color:    #32324a;
+}
+
+
+// -----------------------------------------------------------------------------
+// 3. 页面基础
+// -----------------------------------------------------------------------------
+
+body {
+  //可选：全局平滑滚动
+   scroll-behavior: smooth;
+
+  // 可选：自定义选中文字颜色
+  // &::selection {
+  //     background: rgba($accent-light, 0.25);
+  // }
+}
+
+
+// -----------------------------------------------------------------------------
+// 4. 左侧边栏
+// 类名: .left-sidebar, .site-name, .site-description, .site-logo
+// -----------------------------------------------------------------------------
+
+.left-sidebar {
+    // header .site-name {
+    //     font-weight: 700;
+    //     letter-spacing: 0.02em;
+    // }
+
+    // header .site-logo {
+    //     border: 3px solid var(--accent-color);
+    //     transition: transform 0.3s ease;
+    //
+    //     &:hover {
+    //         transform: scale(1.05);
+    //     }
+    // }
+
+    // header .emoji {
+    //     background: linear-gradient(135deg, var(--accent-color), var(--accent-color-darker));
+    // }
+}
+
+
+// -----------------------------------------------------------------------------
+// 5. 导航菜单 & 社交图标
+// 类名: .main-menu, .social-menu, .menu-item
+// -----------------------------------------------------------------------------
+
+// .main-menu a {
+//     border-radius: 8px;
+//     transition: background 0.2s ease, color 0.2s ease;
+//
+//     &:hover,
+//     &.current {
+//         background: var(--card-background-selected);
+//     }
+// }
+
+// .social-menu a {
+//     opacity: 0.75;
+//     transition: opacity 0.2s ease, transform 0.2s ease;
+//
+//     &:hover {
+//         opacity: 1;
+//         transform: translateY(-2px);
+//     }
+// }
+
+
+// -----------------------------------------------------------------------------
+// 6. 文章列表 / 卡片
+// 类名: .article-list, .article-item, .article-details
+// -----------------------------------------------------------------------------
+
+// .article-item {
+//     transition: transform 0.2s ease, box-shadow 0.2s ease;
+//
+//     &:hover {
+//         transform: translateY(-3px);
+//         box-shadow: var(--shadow-l2);
+//     }
+// }
+
+// .article-item .article-title {
+//     font-weight: 600;
+// }
+
+
+// -----------------------------------------------------------------------------
+// 7. 文章正文
+// 类名: .article-content, .article-header
+// -----------------------------------------------------------------------------
+
+.article-content {
+    // h2, h3, h4 {
+    //     scroll-margin-top: 80px;   // 锚点跳转时不被顶栏遮挡
+    // }
+
+    // img {
+    //     border-radius: 8px;
+    //     box-shadow: var(--shadow-l1);
+    // }
+
+    // blockquote {
+    //     border-left-color: var(--accent-color);
+    //     border-radius: 0 8px 8px 0;
+    // }
+
+    // a {
+    //     text-underline-offset: 3px;
+    // }
+}
+
+
+// -----------------------------------------------------------------------------
+// 8. 标签 & 分类徽章
+// 类名: .article-tags a, .tagCloud-tags a
+// -----------------------------------------------------------------------------
+
+// .article-tags a,
+// .tagCloud-tags a {
+//     background: rgba($accent-light, 0.1);
+//     color: var(--accent-color);
+//     border: 1px solid transparent;
+//     transition: background 0.2s ease, border-color 0.2s ease;
+//
+//     &:hover {
+//         background: rgba($accent-light, 0.2);
+//         border-color: var(--accent-color);
+//     }
+// }
+
+
+// -----------------------------------------------------------------------------
+// 9. 右侧小部件（搜索 / 归档 / 分类 / 标签云）
+// 类名: .right-sidebar, .widget
+// -----------------------------------------------------------------------------
+
+// .widget {
+//     .widget-title {
+//         font-size: 1.3rem;
+//         color: var(--accent-color);
+//         border-bottom: 2px solid var(--card-separator-color);
+//         padding-bottom: 8px;
+//     }
+// }
+
+
+// -----------------------------------------------------------------------------
+// 10. 页脚
+// 类名: .site-footer
+// -----------------------------------------------------------------------------
+
+// .site-footer {
+//     opacity: 0.8;
+//     font-size: 1.3rem;
+// }
+
+
+// -----------------------------------------------------------------------------
+// 11. 分页
+// 类名: .pagination
+// -----------------------------------------------------------------------------
+
+// .pagination a {
+//     border-radius: 8px;
+//
+//     &.current {
+//         background: var(--accent-color);
+//         color: var(--accent-color-text);
+//     }
+// }
+
+
+// -----------------------------------------------------------------------------
+// 12. 代码块 & 行内代码
+// -----------------------------------------------------------------------------
+
+// .article-content pre {
+//     border-radius: 10px;
+//     border: 1px solid var(--card-separator-color);
+// }
+
+// .article-content :not(pre) > code {
+//     padding: 0.15em 0.4em;
+//     border-radius: 4px;
+// }
+
+
+// -----------------------------------------------------------------------------
+// 13. 滚动条（仅 Webkit / Blink 内核浏览器）
+// -----------------------------------------------------------------------------
+
+// ::-webkit-scrollbar {
+//     width: 8px;
+//     height: 8px;
+// }
+//
+// ::-webkit-scrollbar-track {
+//     background: var(--body-background);
+// }
+//
+// ::-webkit-scrollbar-thumb {
+//     background: var(--accent-color);
+//     border-radius: 4px;
+//     opacity: 0.6;
+// }
+
+
+// -----------------------------------------------------------------------------
+// 14. 自定义背景（可选）
+// 取消注释后，页面会显示渐变或图片背景
+// -----------------------------------------------------------------------------
+
+// body {
+//     background-image: linear-gradient(
+//         135deg,
+//         var(--body-background) 0%,
+//         rgba($accent-light, 0.08) 100%
+//     );
+//     background-attachment: fixed;
+// }
+
+// body {
+//     background-image: url("/img/bg.jpg");
+//     background-size: cover;
+//     background-position: center;
+//     background-attachment: fixed;
+// }
+
+
+// -----------------------------------------------------------------------------
+// 15. 响应式微调
+// 主题已内置 @include respond() 断点，可按需使用
+// -----------------------------------------------------------------------------
+
+// @include respond(md) {
+//     :root {
+//         --article-font-size: 1.75rem;
+//     }
+// }
+
+// @include respond(xl) {
+//     .left-sidebar {
+//         --sidebar-avatar-size: 130px;
+//     }
+// }
