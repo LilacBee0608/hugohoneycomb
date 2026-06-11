@@ -1,10 +1,10 @@
 ---
 title: 优香&诺亚亚克力立牌
 description: 早期平面设计
-date: 2025-05-05
+#date: 2025-05-05
 image: cover.jpg
 categories:
-    - PS作品
+    - BA二创
 tags:
     - 蔚蓝档案
     - 优香
