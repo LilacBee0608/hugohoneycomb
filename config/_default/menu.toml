@@ -22,3 +22,11 @@
 
     [social.params]
         icon = "brand-twitter"
+
+[[social]]
+    identifier = "qq"
+    name       = "QQ"
+    url        = "https://qm.qq.com/q/V41cgjobaW"
+
+    [social.params]
+        icon = "brand-qq"
