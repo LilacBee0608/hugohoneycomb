@@ -6,7 +6,6 @@ tags:
 categories:
     - 软件
 image: icon.png
-weight: 1
 ---    
 
 ## 软件展示

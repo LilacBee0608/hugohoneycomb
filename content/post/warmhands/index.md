@@ -8,6 +8,7 @@ categories:
     - 漫画嵌字
     - BA二创
 image: P4.png
+weight: 2
 ---
 ## 嵌字成品
 
