@@ -1,7 +1,7 @@
 ---
-title: 海边的优香
+title: 海
 #date: 2025-03-22 
-description: 个人最爱的PS作品之一
+description: 个人最爱的作品之一
 image: 1.png
 tags:
     - 蔚蓝档案
