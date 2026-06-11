@@ -106,9 +106,6 @@ $shadow-strength:     1;
     // 侧边栏尺寸（可选微调）
      --sidebar-avatar-size: 50px;
      --emoji-size: 36px;
-
-    //文章封面
-    --article-image-height: 500px;
 }
 
 [data-scheme="dark"] {
@@ -379,3 +376,22 @@ body {
 //         --sidebar-avatar-size: 130px;
 //     }
 // }
+
+//------------------
+//修改封面大小
+//------------------
+:root {
+    --article-image-height: 180px;   // 手机端，默认 150px
+}
+
+@include respond(md) {
+    :root {
+        --article-image-height: 240px;   // 平板，默认 200px
+    }
+}
+
+@include respond(xl) {
+    :root {
+        --article-image-height: 420px;   // 桌面，默认 250px
+    }
+}
