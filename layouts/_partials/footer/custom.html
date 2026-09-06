@@ -1,0 +1,5 @@
+{{/* 全站背景图片层容器：具体背景图（浅色 bg0.png / 暗色 bg1.png）由 head/custom.html 中的样式按色制切换。
+     采用 CSS background 方案，浏览器只会下载当前色制对应的图片 */}}
+{{- with resources.Get "img/bg0.png" -}}
+<div class="site-backdrop" aria-hidden="true"></div>
+{{- end -}}

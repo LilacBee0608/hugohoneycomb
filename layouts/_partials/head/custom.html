@@ -1,0 +1,39 @@
+{{- /* 全站背景图片层样式，配合 _partials/footer/custom.html 中的 .site-backdrop 使用 */ -}}
+{{- $light := resources.Get "img/bg0.png" -}}
+{{- $dark := resources.Get "img/bg1.png" -}}
+{{- with $light -}}
+<style>
+    /* 背景图片层：锚定在文档顶部，宽度始终 100%（画面左右不裁切），
+       盒子按图片原始宽高比由 aspect-ratio 撑起，background-size 100% 100% 恰好铺满不变形；
+       使用 absolute 而非 fixed，因此随页面滚动——窗口不够高时向下滚动即可看到完整图片 */
+    .site-backdrop {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        width: 100%;
+        aspect-ratio: {{ $light.Width }} / {{ $light.Height }};
+        background-image: url("{{ $light.RelPermalink }}");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        z-index: -1; /* 位于站点背景色之上、所有内容之下 */
+        pointer-events: none; /* 不拦截任何点击 */
+        user-select: none;
+    }
+
+    {{- with $dark }}
+    /* 暗色模式：换用专门的暗色背景图，并按其宽高比调整盒子比例 */
+    html[data-scheme="dark"] .site-backdrop {
+        background-image: url("{{ .RelPermalink }}");
+        aspect-ratio: {{ .Width }} / {{ .Height }};
+    }
+    {{- end }}
+
+    /* 打印时隐藏背景图片 */
+    @media print {
+        .site-backdrop {
+            display: none;
+        }
+    }
+</style>
+{{- end -}}
