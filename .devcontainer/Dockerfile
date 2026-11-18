@@ -16,8 +16,10 @@ FROM mcr.microsoft.com/devcontainers/javascript-node:${NODE_VERSION}
 # 构建结果可复现；需要升级时只改下面的 ARG（或 devcontainer.json 中的 build.args）。
 # ---------------------------------------------------------------------------
 
-# Hugo 版本：0.154.2 属于仍提供 extended 构建的版本（与 .github/workflows 中的 HUGO_VERSION 一致）
-ARG HUGO_VERSION=0.154.2
+# Hugo 版本：0.169.0 是仍提供 extended 构建的最后一个版本
+# （0.158.0 起新增了 .Site.Language.Locale 字段，Stack v4 主题依赖此字段）
+# Hugo v0.170.0 起官方移除了 extended 构建，不能再无脑用 latest + extended
+ARG HUGO_VERSION=0.169.0
 # Dart Sass 版本：Stack 主题的 SCSS 需要它（与 .github/workflows 中的 DART_SASS_VERSION 一致）
 ARG DART_SASS_VERSION=1.97.1
 

@@ -5,9 +5,10 @@
         "args": {
             // Node.js 版本
             "NODE_VERSION": "22",
-            // Hugo 版本：必须是仍提供 extended 构建的版本
-            // （Hugo v0.170.0 起官方已移除 extended 构建，不能再无脑用 latest）
-            "HUGO_VERSION": "0.154.2",
+            // Hugo 版本：0.169.0 是仍提供 extended 构建的最后一个版本
+            // （0.158.0+ 才有 .Site.Language.Locale，Stack v4 主题依赖；
+            //  v0.170.0 起官方已移除 extended 构建）
+            "HUGO_VERSION": "0.169.0",
             // Dart Sass 版本，Stack 主题编译 SCSS 需要
             "DART_SASS_VERSION": "1.97.1"
         }
