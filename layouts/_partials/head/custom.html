@@ -2,19 +2,23 @@
 {{- $light := resources.Get "img/bg0.png" -}}
 {{- $dark := resources.Get "img/bg1.png" -}}
 {{- with $light -}}
+{{- /* 兜底：某些 PNG 格式 Hugo 读不到宽高会返回 0，硬编码真实尺寸 (bg0.png = 4000×5500, bg1.png = 2560×1440) */ -}}
+{{- $lw := cond (or (eq $light.Width 0) (eq $light.Height 0)) 4000 $light.Width -}}
+{{- $lh := cond (or (eq $light.Width 0) (eq $light.Height 0)) 5500 $light.Height -}}
+{{- $dw := cond (or (eq $dark.Width 0) (eq $dark.Height 0)) 2560 $dark.Width -}}
+{{- $dh := cond (or (eq $dark.Width 0) (eq $dark.Height 0)) 1440 $dark.Height -}}
 <style>
-    /* 背景图片层：锚定在文档顶部，宽度始终 100%（画面左右不裁切），
-       盒子按图片原始宽高比由 aspect-ratio 撑起，background-size 100% 100% 恰好铺满不变形；
-       使用 absolute 而非 fixed，因此随页面滚动——窗口不够高时向下滚动即可看到完整图片 */
+    /* 背景图片层：fixed 固定在视口上，完整等比显示不变形不裁剪，
+       靠底部对齐（图片底部贴视口底部，上方按比例自然留白） */
     .site-backdrop {
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
-        display: block;
         width: 100%;
-        aspect-ratio: {{ $light.Width }} / {{ $light.Height }};
+        height: 100vh;
         background-image: url("{{ $light.RelPermalink }}");
-        background-size: 100% 100%;
+        background-size: contain;           /* 完整等比显示，不变形不裁剪 */
+        background-position: bottom center; /* 靠底部居中对齐 */
         background-repeat: no-repeat;
         z-index: -1; /* 位于站点背景色之上、所有内容之下 */
         pointer-events: none; /* 不拦截任何点击 */
@@ -22,10 +26,9 @@
     }
 
     {{- with $dark }}
-    /* 暗色模式：换用专门的暗色背景图，并按其宽高比调整盒子比例 */
+    /* 暗色模式：换用专门的暗色背景图 */
     html[data-scheme="dark"] .site-backdrop {
         background-image: url("{{ .RelPermalink }}");
-        aspect-ratio: {{ .Width }} / {{ .Height }};
     }
     {{- end }}
 
